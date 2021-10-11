@@ -174,22 +174,20 @@ def matrix_add(matrix_01,matrix_02):
 # once the for loop is finish then it will return our result
 
 #-PsuedoCode
-#mac a function mat_vec_multi
+#make a function mat_vec_multi
+# create a matrix full of 0s that is the same size as given matrix.
 # create an empty set (result) to append answers to
+# create a for loop that runs scalar_vec_multi for all elements in length vector into the rows ih matrix
+# define result for next loop
+# now run for loop that adds all of those results and puts them into result
 # .
 
-def add_arbitrary_vectors(LV):
-  result = add_vectors(LV[0],LV[1])
-  for index in range(2,len(LV)):
-    result = add_vectors(result,LV[index])
-  return result
 
 def mat_vec_multi(matrix,vector):
   mat_result = [0 for elements in matrix]
-  result = []
   for index in range(len(vector)):
     mat_result[index] = scalar_vec_multi(matrix[index],vector[index])
-
+  result = add_vectors(mat_result[0],mat_result[1])
   for index in range(2, len(mat_result)):
     result = add_vectors(result,mat_result[index])
   return result
@@ -197,11 +195,34 @@ def mat_vec_multi(matrix,vector):
 
 #Problem 05
 
+#Q1: What do we have?
+
+#A1: 2 matricies that are the same size
+
+#Q2: What do we want?
+
+#A2: want a new matrix that has the same size as our given matricies whoes elements are the for of the first matrix times the columns of the second function. 
+# so result[0] sould equal elements in matrix_01's row 1 times the elements in matrix_02's column 1 and adding all of those together
+# to get result[0]
+
+#Q3: How will we get there?
+
+#A3: we will create mat_result that is filled with 0's and is the same size as our given matricies.
+# and creat an empty set called result. then we will run a for loop that implements problem #4 on to all elements
+# in the matrices and store them in our result.
+
+#-PsuedoCode
+# define function called mat_mat_multi
+# create an empty set called result
+# have a for loop run mat_vec_multi for all elements in the range of given matrix
+# in for loop have it append the ans of mat_vec_multi to all elements in our result
+# and run it for every element in our given matricies
+# return result.
+
 def mat_mat_multi(matrix_0,matrix_1):
-  mat_result = [0 for elements in matrix_0]
   result = []
   for index in range(len(matrix_1)):
-    result = result.append(mat_vec_multi(matrix_0,matrix_1))
+    result.append(mat_vec_multi(matrix_0,matrix_1[index]))
   return result
 
 #Test Inputs
@@ -222,11 +243,11 @@ test_scalar_01 = 2
 test_scalar_02 = 3
 
 #scalar_vec_multi(test_scalar_01,test_vector_01) should output [2,4,8]
-print('Test Output for scalar_vec_multi: ' + str(scalar_vec_multi(test_scalar_01,test_vector_01)))
+print('Test Output for scalar_vec_multi: ' + str(scalar_vec_multi(test_vector_01,test_scalar_01)))
 print('Should have been [2,4,8]')
 
 #scalar_vec_multi(test_scalar_02,test_vector_02) should output [9,3,6]
-print('Test Output for scalar_vec_multi: ' + str(scalar_vec_multi(test_scalar_02,test_vector_02)))
+print('Test Output for scalar_vec_multi: ' + str(scalar_vec_multi(test_vector_02,test_scalar_02)))
 print('Should have been [9,3,6]')
 
 test_matrix_01 = [[1,2,3],[4,5,6],[7,8,9]]
@@ -234,12 +255,12 @@ test_matrix_02 = [[2,4,6],[8,10,12],[14,16,18]]
 test_matrix_03 = [[1,3,5],[7,9,11],[13,15,17]]
 
 #scalar_matrix_multi(test_scalar_01,test_matrix_01) should be [[2,4,6],[8,10,12],[14,16,18]]
-print('Test Output for scalar_matrix_multi: ' +str(scalar_matrix_multi(test_scalar_01,test_matrix_01)))
+print('Test Output for scalar_matrix_multi: ' +str(scalar_matrix_multi(test_matrix_01,test_scalar_01)))
 print('Should have been [[2,4,6],[8,10,12],[14,16,18]]')
 
 #scalar_matrix_multi(test_scalar_02,test_matrix_01) should be [[3,6,9],[12,15,18],[21,24,27]]
-print('Test Output for scalar_matrix_multi: ' +str(scalar_matrix_multi(test_scalar_02,test_matrix_01)))
-print('Should have been [[3,6,9],[12,15,18],[21,24,27]]')
+print('Test Output for scalar_matrix_multi: ' +str(scalar_matrix_multi(test_matrix_02,test_scalar_01)))
+print('Should have been [[4, 8, 12], [16, 20, 24], [28, 32, 36]]')
 
 #_matrix_add(test_matrix_01,test_matrix_02) should be [[3,6,9],[12,15,18],[21,24,27]]
 print('Test Output for scalar_matrix_multi: ' +str(matrix_add(test_matrix_01,test_matrix_02)))
@@ -251,4 +272,16 @@ print('Should have been [[2,5,8],[11,14,17],[20,23,26]]')
 
 #mat_vec_multi(test_matrix_01,test_vector_02) should be[{21},{27},{33}]
 print('Test Output for mat_vec_multi: ' +str(mat_vec_multi(test_matrix_01,test_vector_02)))
-print('Should have been [{21},{27},{33}]')
+print('Should have been [21, 27, 33]')
+
+#mat_vec_multi(test_matrix_02,test_vector_03) should be[{21},{27},{33}]
+print('Test Output for mat_vec_multi: ' +str(mat_vec_multi(test_matrix_02,test_vector_03)))
+print('Should have been [84, 108, 132]')
+
+#mat_mat_multi(test_matrix_01,test_matrix_02) should be[[60, 72, 84], [132, 162, 192], [204, 252, 300]]
+print('Test Output for mat_mat_multi: ' +str(mat_mat_multi(test_matrix_01,test_matrix_02)))
+print('Should have been [[60, 72, 84], [132, 162, 192], [204, 252, 300]]')
+
+#mat_mat_multi(test_matrix_01,test_matrix_03) should be[[48, 57, 66], [120, 147, 174], [192, 237, 282]]
+print('Test Output for mat_mat_multi: ' +str(mat_mat_multi(test_matrix_01,test_matrix_03)))
+print('Should have been [[48, 57, 66], [120, 147, 174], [192, 237, 282]]')
