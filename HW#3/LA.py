@@ -87,11 +87,11 @@ def matrix_add(matrix_01: list[list[float]],matrix_02: list[list[float]]) -> lis
 #Problem 04
 
 def mat_vec_multi(matrix: list[list[float]],vector: list[float]) -> list[float]:
-  """Multiplies two vectors whos number of columns and rows are equal.
+  """Multiplies a matrix and a vector.
 
   Creates a zero vector the same size as the given vector, then overwrites each
-  element with the corresponding product from the input column vector, in row form, 
-  multiplied by its corresponding column. Then adding the elements in the rows of the 
+  element with the corresponding product from the input column vector, multiplied in row form, 
+  multiplied by its corresponding column in the matrix. Then adding the elements in the rows of the 
   matrix to give us the new element to be put in the zero vector.
 
   Args:
@@ -107,14 +107,30 @@ def mat_vec_multi(matrix: list[list[float]],vector: list[float]) -> list[float]:
     mat_result[index] = scalar_vec_multi(matrix[index],vector[index])
   result: list[float] = add_vectors(mat_result[0],mat_result[1])
   for index in range(2, len(mat_result)):
-    result = add_vectors(result,mat_result[index])
+    result: list[float] = add_vectors(result,mat_result[index])
   return result
 
 
 #Problem 05
 
-def mat_mat_multi(matrix_0: list[float],matrix_1: list[float]) -> list[float]:
-  result: list[float] = []
+def mat_mat_multi(matrix_0: list[list[float]],matrix_1: list[list[float]]) -> list[list[float]]:
+  """Multiplies two matricies where the first matrix's number of rows equal 
+      the secondmatrix's number of columns.
+
+  Creates and empty set called result. Then runs mat_vec_multi in a for loop for each
+  vector column in matrix_1 to its corresponding row in matrix_0. it then repeats
+  mat_vec_multi for every element until it gets to the nth column in matrix_1
+
+  Args:
+    matrix_0: A Matrix stored as a list of column vectors.
+    matrix_1: A Matrix stored as a list of column vectors where its number of columns
+    equal the number of rows in matrix_0.
+
+  Returns:
+    The matrix whos elements are the products of matrix_0 and matrix_1 by using the 
+    mat_vec_multi function.
+  """
+  result: list[list[float]] = []
   for index in range(len(matrix_1)):
     result.append(mat_vec_multi(matrix_0,matrix_1[index]))
   return result
