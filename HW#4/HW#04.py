@@ -135,7 +135,7 @@ def mat_mat_multi(matrix_0: list[list[float]],matrix_1: list[list[float]]) -> li
     result.append(mat_vec_multi(matrix_0,matrix_1[index]))
   return result
 
-
+##########################################################################################################
 #HW#04
 
 
@@ -197,17 +197,16 @@ def inf_or_p_norm(vector: list[float], p: float = 2, boolean: bool = False) -> f
     else:
         return p_norm(vector, p)
 
-
-         
-test_vector_02 = [3, 1, 2]
-
-print(inf_or_p_norm(test_vector_02,True,True))
+#problem #5
 
 def inner_product(vector_0: list[float], vector_1: list[float]) -> float:
-    result = 0
-    for index in range (len(vector_0)):
-        result += vector_0[index]*vector_1[index]
-    return result
+  '''
+  '''
+  result = 0
+  for index in range (len(vector_0)):
+      result += vector_0[index]*vector_1[index]
+  return result
+
 #Test Inputs
 
 # test_vector_01 = [1, 2, 4]
