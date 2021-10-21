@@ -184,7 +184,8 @@ def inf_norm(vector: list[float]) -> float:
     result: list[float] = []
     for element in range(len(vector)):
         result.append(abs(vector[element]))
-    return max(result)
+    result = max(result)
+    return result
 
 #problem #4
 
@@ -200,7 +201,7 @@ def inf_or_p_norm(vector: list[float], p: float = 2, boolean: bool = False) -> f
          
 test_vector_02 = [3, 1, 2]
 
-print(inf_or_p_norm(test_vector_02))
+print(inf_or_p_norm(test_vector_02,True,True))
 
 def inner_product(vector_0: list[float], vector_1: list[float]) -> float:
     result = 0
