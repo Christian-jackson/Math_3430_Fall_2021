@@ -9,7 +9,7 @@ will need to add are
 value. Note that this function must be able to take both real numbers and
 complex numbers as input!!!
 
-#2) A function which takes the as it's arguments
+#2) A function which takes as it's arguments
 
 1) A vector stored as a list.
 
