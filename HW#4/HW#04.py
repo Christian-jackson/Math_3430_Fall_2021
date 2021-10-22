@@ -138,16 +138,15 @@ def mat_mat_multi(matrix_0: list[list[float]],matrix_1: list[list[float]]) -> li
 ##########################################################################################################
 #HW#04
 
-
+  
 #problem #1
 
-def absolute(Scalar: complex or float) -> complex or float:
+def absolute(S: complex or float) -> float:
     '''Takes a scalar number (complex or real) and gives the absolute
         value of it.
     
     puts the scalar into the abssolute value function that python has and 
-    gives back the absolute value of your input. Could do the function but
-    is a waste of code for something already in python. But for complex numbers
+    gives back the absolute value of your input. For complex numbers
     it takes z = a +jb and multiplies it by z.conjugate() and returns the square
     root of that result.
 
@@ -158,8 +157,9 @@ def absolute(Scalar: complex or float) -> complex or float:
       The absolute value of your scalar input.
 
     '''
-    result: complex or float = abs(Scalar)
-    return result
+    z: complex or float = S
+    result: float = (z*z.conjugate())**(1/2)
+    return result.real
 
 #problem #2
 
@@ -172,7 +172,7 @@ def p_norm(vector: list[float], p: float = 2) -> float:
         return
     result: complex or float = 0
     for element in vector:
-        result += abs(element)**(absolute(p)) 
+        result += absolute(element)**(absolute(p)) 
     result = result**(1/absolute(p))
     return result
 
@@ -183,7 +183,7 @@ def inf_norm(vector: list[float]) -> float:
     '''
     result: list[float] = []
     for element in range(len(vector)):
-        result.append(abs(vector[element]))
+        result.append(absolute(vector[element]))
     result = max(result)
     return result
 
