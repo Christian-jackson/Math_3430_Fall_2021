@@ -142,29 +142,42 @@ def mat_mat_multi(matrix_0: list[list[float]],matrix_1: list[list[float]]) -> li
 #problem #1
 
 def absolute(S: complex or float) -> float:
-    '''Takes a scalar number (complex or real) and gives the absolute
-        value of it.
+    '''Gives absolute value of given scalar.
     
-    puts the scalar into the abssolute value function that python has and 
-    gives back the absolute value of your input. For complex numbers
-    it takes z = a +jb and multiplies it by z.conjugate() and returns the square
-    root of that result.
+    Takes a scalar sumber, complex or real. For complex numbers
+    it takes z = a +jb and multiplies it by z.conjugate() (a - b*1j) and 
+    returns the square root of that result. For reals it just squares is
+    and square roots it to make it positive. conjugate doesn't effect reals
+    because conjugate only deals with +-(b*1j).
 
     Args:
       Scalar: A scalar number that is in the reals or in complex numbers.
 
     Returns:
-      The absolute value of your scalar input.
+      The real part of the absolute value of your scalar input.
 
     '''
     z: complex or float = S
     result: float = (z*z.conjugate())**(1/2)
     return result.real
+    #returning result.real because I don't think we need the complex 0 in this assignment
 
 #problem #2
 
 def p_norm(vector: list[float], p: float = 2) -> float:
-    '''
+    ''' Gives p-norm of a vector
+    
+    Takes a list vector, multiplies all its elements to
+    the power of your scalar and adds the elements together in 
+    a for loop, then returns the scalar(ed) root of that result.
+
+    Args:
+      vector: A vector stored as a list
+      p: A scalar number which decides which norm to take.
+      defaults to 2 if no input is given.
+
+    Returns:
+      The p-norm of your vector which is a float number.
     
     '''
     if type(vector[0]) == list:
@@ -175,11 +188,24 @@ def p_norm(vector: list[float], p: float = 2) -> float:
         result += absolute(element)**(absolute(p)) 
     result = result**(1/absolute(p))
     return result
+    #need p>=0 so took abs of p to make sure it stays that way
 
 #problem #3
 
 def inf_norm(vector: list[float]) -> float:
-    '''
+    '''Gives greatest absolute valued element of the 
+      scalar
+
+    Creates an empty set called result and appends 
+    the absolute value, not python abs(), of the elements 
+    in the given function to each element in result. Then
+    returns the max element in result
+
+    Args:
+      vector: A vector stored as a list
+
+    Returns:
+      The greatest absolute(element) in the vector.
     '''
     result: list[float] = []
     for element in range(len(vector)):
@@ -189,8 +215,24 @@ def inf_norm(vector: list[float]) -> float:
 
 #problem #4
 
-def inf_or_p_norm(vector: list[float], p: float = 2, boolean: bool = False) -> float:
-    '''
+def inf_or_p_norm(vector: list[float], boolean: bool = False, p: float = 2) -> float:
+    '''Gives infinity-norm or p-norm based on user input
+
+    Runs a Boolean function that calls p-norm (default p = 2) 
+    if user only puts the vector into the function. If user wants 
+    something there than the 2-norm they must enter all ({0}, (1}, {2})) 
+    If user puts in the vector and a True boolean then it returns
+    the inf-norm.
+
+    Args:
+      vector: A vector stored as a list
+      boolean: a boolean value (True or False) decides which
+      function to return
+      p: A scalar number which decides which norm to take.
+      defaults to 2 if no input is given.
+    
+    Returns:
+      Either infinity-norm or p-norm of the vector
     '''
     if boolean:
         return inf_norm(vector)
@@ -200,7 +242,20 @@ def inf_or_p_norm(vector: list[float], p: float = 2, boolean: bool = False) -> f
 #problem #5
 
 def inner_product(vector_0: list[float], vector_1: list[float]) -> float:
-  '''
+  '''Gives inner product, also known as cross product
+
+  Runs a for loop that gives the summation of the elements in 
+  vector_0 times the elements in vector_1. It runs until vector_0
+  is out of elements
+
+  Args:
+    vector_0: A vector stored as a list
+    vector_1: a vector stored as a list the same size
+              as vector_0.
+        
+  Returns:
+    the summations of element_0*element_1 for vector_0
+    and vector_1
   '''
   result = 0
   for index in range (len(vector_0)):
