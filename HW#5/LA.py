@@ -1,4 +1,7 @@
 
+from abc import abstractproperty
+
+
 def add_vectors(vector_a: list[float],vector_b: list[float]) -> list[float]:
   """Adds the input vectors.
 
@@ -135,7 +138,8 @@ def mat_mat_multi(matrix_0: list[list[float]],matrix_1: list[list[float]]) -> li
     result.append(mat_vec_multi(matrix_0,matrix_1[index]))
   return result
 
-##########################################################################################################
+#############################################################################################
+
 #HW#04
 
   
@@ -161,7 +165,6 @@ def absolute(S: complex or float) -> float:
     result: float = (z*z.conjugate())**(1/2)
     return result.real
     #returning result.real because I don't think we need the complex 0 in this assignment
-
 #problem #2
 
 def p_norm(vector: list[float], p: float = 2) -> float:
@@ -188,9 +191,7 @@ def p_norm(vector: list[float], p: float = 2) -> float:
         result += absolute(element)**(absolute(p)) 
     result = result**(1/absolute(p))
     return result
-print(p_norm([7,8,9]))
     #need p>=0 so took abs of p to make sure it stays that way
-
 #problem #3
 
 def inf_norm(vector: list[float]) -> float:
@@ -262,10 +263,7 @@ def inner_product(vector_0: list[float], vector_1: list[float]) -> float:
   for index in range (len(vector_0)):
       result += vector_0[index]*vector_1[index]
   return result
-test_vector_01 = [2, 3-3*1j]
-test_vector_02 = [3+7*1j, 3]
 
-print(inner_product(test_vector_01, test_vector_02))
 #Test Inputs
 
 # test_vector_01 = [1, 2, 4]
