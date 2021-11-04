@@ -2,8 +2,8 @@ import pytest
 import QR
 
 
-test_matrix_01 = [[1,2,3],[4,5,6]]
-test_matrix_02 = [[2,4,6],[8,10,12]]
+test_matrix_01 = [[1,2],[3,4]]
+test_matrix_02 = [[2,4],[6,8]]
 
 def test_UGS():
     assert QR.UGS(test_matrix_01) == [[[0.4472135954999579, 0.8944271909999159], [0.8944271909999162, -0.4472135954999574]], 
