@@ -52,8 +52,6 @@ def UGS(matrix: list[list]) -> list[list]:
         R[outer][outer] = LA.p_norm((V[outer]))
         Q.append(LA.scalar_vec_multi((V[outer]), (1/R[outer][outer])))
     return [Q, R]
-test_matrix_01 = [[1,2,3], [4,5,6]]
-print(UGS(test_matrix_01))
 
 
 
@@ -92,8 +90,3 @@ def SGS(matrix: list[list]) -> list[list]:
             A = LA.scalar_vec_multi(Q[outer], -R[inner][outer])
             V[inner] = LA.add_vectors(V[inner], A)
     return [Q, R]
-
-
-
-test_matrix_01 = [[1,2], [3,4]]
-print(UGS(test_matrix_01))
