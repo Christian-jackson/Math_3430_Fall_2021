@@ -30,6 +30,14 @@ described in the algorithm.
 import LA
 
 def UGS(matrix: list[list]) -> list[list]:
+    """Computes QR factorization using the unstable Gram-Schmidt process.
+
+
+    Args:
+        matrix_a: A matrix stored as a list of lists.
+    Returns:
+        A list producing the matrices Q and R.
+    """
 
     Q: list = []
     V: list = [element for element in matrix]
