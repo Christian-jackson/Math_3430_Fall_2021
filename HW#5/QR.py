@@ -31,7 +31,13 @@ import LA
 
 def UGS(matrix: list[list]) -> list[list]:
     """Computes QR factorization using the unstable Gram-Schmidt process.
-
+        first initializes a square matrix or an R matrix of 0's equal to the matrix input.
+        does the same for V too. then for each element in the input matrix sets equal the element
+        of the input matrix in each element vector of the matrix. the corresponding element of R is set to the inner 
+        product of the vectors of the Q matrix and the V matrix. Then overwrites a variable, A, with the scalar vector multi
+        function of the inner index of q, and the neg outer and inner index of R. Then, overwrite the outer index of V
+        with the add vectors function of the outer index of V and A. The orthoganal matrix Q is then set to be the matrix 
+        V divided by the diagonal scalar elements of R
 
     Args:
         matrix_a: A matrix stored as a list of lists.
@@ -47,8 +53,8 @@ def UGS(matrix: list[list]) -> list[list]:
         V[outer] = matrix[outer]
         for inner in range(0, outer):
             R[outer][inner] = LA.inner_product(Q[inner], V[outer])
-            s = LA.scalar_vec_multi(Q[inner], -R[outer][inner])
-            V[outer] = LA.add_vectors(V[outer], s)
+            A = LA.scalar_vec_multi(Q[inner], -R[outer][inner])
+            V[outer] = LA.add_vectors(V[outer], A)
         R[outer][outer] = LA.p_norm((V[outer]))
         Q.append(LA.scalar_vec_multi((V[outer]), (1/R[outer][outer])))
     return [Q, R]
@@ -90,3 +96,4 @@ def SGS(matrix: list[list]) -> list[list]:
             A = LA.scalar_vec_multi(Q[outer], -R[inner][outer])
             V[inner] = LA.add_vectors(V[inner], A)
     return [Q, R]
+
