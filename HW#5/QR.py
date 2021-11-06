@@ -30,7 +30,6 @@ def SGS(matrix: list[list]) -> list[list]:
     for outer in range(len(matrix)):
         R[outer][outer] = LA.p_norm((V[outer]))
         Q.append(LA.scalar_vec_multi((V[outer]), (1 / R[outer][outer])))
-        print()
         for inner in range(outer, len(matrix)):
             R[inner][outer] = LA.inner_product(Q[outer], V[inner])
             A = LA.scalar_vec_multi(Q[outer], -R[inner][outer])
@@ -53,3 +52,7 @@ def orthonorm(Matrix: list[list]) -> list[list]:
     '''
     result: list[list] = SGS(Matrix)
     return result[0]
+test_matrix_01 = [[1,2],[3,4]]
+test_matrix_02 = [[2,4],[6,8]]
+print(orthonorm(test_matrix_01))
+print(orthonorm(test_matrix_02))

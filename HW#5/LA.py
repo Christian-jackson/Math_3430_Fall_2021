@@ -263,7 +263,8 @@ def inner_product(vector_0: list[float], vector_1: list[float]) -> float:
   for index in range (len(vector_0)):
       result += vector_0[index]*vector_1[index]
   return result
-
+test_vector_01 = [1, 2, 4]
+test_vector_02 = [3, 1, 2]
 #Test Inputs
 
 # test_vector_01 = [1, 2, 4]
