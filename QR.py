@@ -96,10 +96,6 @@ def con_trans(m: list[list[complex]]) -> list[list[complex]]:
             result[row][column] = a
     return result
 
-#matrix = [[2+3j, 1+1j, 2j], [3-1j, 4-2j, 1+3j],[5,8,2]]
-#print(con_trans(matrix))
-#gives [[(2-3j), (3+1j), (5+0j)], [(1-1j), (4+2j), (8+0j)], [-2j, (1-3j), (2+0j)]]
-
 def deep_copy(m: list[list]) -> list[list]:
     """ Creates a deep copy of the given matrix
 
@@ -171,9 +167,6 @@ def identity_matrix(x: int) -> list[list]:
     for index in range(x):
         i[index][index] = 1
     return i
-# x = 5
-# print(identity_matrix(x))
-#gives [[1, 0, 0, 0, 0], [0, 1, 0, 0, 0], [0, 0, 1, 0, 0], [0, 0, 0, 1, 0], [0, 0, 0, 0, 1]]
 
 def vec_vec_multi(v_1: list, v_2: list) -> list:
     """Multiplies two vectors together
@@ -197,11 +190,6 @@ def vec_vec_multi(v_1: list, v_2: list) -> list:
     for x in range(len(v_2)):
         result.append(LA.scalar_vec_multi(v_1, v_2[x]))
     return result
-
-# v_1 = [2,3,4]
-# v_2 = [7,8,9]
-# print(vec_vec_multi(v_1, v_2))
-# gives [[14, 21, 28], [16, 24, 32], [18, 27, 36]]
 
 def F_builder(vec: list) -> list[list]:
     """Calculates the F_k value
@@ -301,7 +289,3 @@ def Householder(m: list[list]) -> list[list]:
         Q = LA.mat_mat_multi(Q, ct)
     
     return[Q, R]
-
-matrix_01 = [[1,2,3],[4,5,6],[7,8,9]]
-print(Householder(matrix_01))
-# gives [[[(-0.2672612419124245+0j), (-0.5345224838248489+0j), (-0.8017837257372733+0j)], [(0.8728715609439699+0j), (0.21821789023599203+0j), (-0.43643578047198434+0j)], [(-0.4082482904638626+0j), (0.816496580927726+0j), (-0.40824829046386335+0j)]], [[-3.741657386773942, 7.251946429389432e-16, -3.3917873657517295e-16], [-8.552359741197582, 1.9639610121239335, 5.551115123125783e-17], [-13.363062095621222, 3.927922024247865, 5.551115123125783e-16]]]
