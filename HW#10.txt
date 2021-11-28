@@ -1,0 +1,33 @@
+HW#10
+A project that I would find really cool to do is to
+make a program that would be a plug-in in Runelight.
+Runelight is a program that runs Runescape that has
+plugins made by users that make the game more fun
+to play, since it's a game that came out in 2006-2007,
+but doesn't have any cheats. It just has stuff that 
+would make it more user friendly to players. Also,
+since Runescape is a MMO, like other MMO's it gives
+you items based on RNG, all praise RNGesus. So each
+time you complete a task or kill something you have a 
+certain percent chance of getting the item that you 
+actually want. So, the plug-in that I would want to 
+make would give an overlay on the game and tell you
+what the odds are of getting the item you want. Since
+the game keeps track of how many times you've killed 
+certain monsters or how many times you completed a task
+the plug-in would us that and then put it into a 
+statistical program that I have written to give you the
+exact percent chance you have on getting the item on the 
+next completion. All the data for percent chance of something
+dropping in the game is already out on the wiki for the game. 
+There is also a calculator of the wiki for it that seems fairly 
+accurate, but I dont think there is a plug-in for Runelight yet
+that could tell you immediatly in game after each kill/comlpletion.
+It would be great for the long grinds of items that have a 1/500 
+chance and even better for the ones that are 1/5000 and see the 
+you getting closer and closer to being able to get the item.
+Also, maybe do something for if you get crazy lucky on getting
+an item crazy early. like going for an item that has a 1/5000 
+chance, but getting it on like you 45th try. Also, do something
+for when you go dry. Like if you have a 1/250 chance of getting
+something but haven't gotten it even after 700 kills.
