@@ -50,158 +50,258 @@ def orthonorm(Matrix: list[list]) -> list[list]:
         Returns an orthonormalized matrix the same span as the input matrix
     
     '''
-    result: list[list] = SGS(Matrix)
-    return result[0]
-test_matrix_01 = [[1,2],[3,4]]
-test_matrix_02 = [[2,4],[6,8]]
-print(orthonorm(test_matrix_01))
-print(orthonorm(test_matrix_02))
+    result: list[list] = SGS(Matrix)[0]
+    return result
 
-def householder(mtx:list):
-    """Performs Householder triangularization
-    Parameters
-    ----------
-    mtx : list
-        A input matrix of floats
-    Returns
-    -------
-    a list where first index is an orthogonal matrix Q and the second element 
-    is an upper triangular matrix R
+
+#################################################################################
+
+def conjugate(a: float) -> float:
+    """Calculates the conjugate
+
+    set an element 'result' equal to the real part plus the
+    negative of the imaginary part with the i maginary number
+    muliplied to the .imag part.
+
+    Args:
+        a: A float scalar
+
+    Returns:
+        The conjugated scalar
+    
     """
+    result: float = a.real + -a.imag*1j
+    return result
 
-def EmptyMat(mat:list[list])->list[list]:
-    '''
-    creates an empty matrix full of 0's same size as mat
-    Args:
-    mat: A matrix stored as a list of lists.
-    Returns: Matrix the same size as m filled with 0.
-    '''
-    returnMatrix = []
-    for index in range(len(mat)):
-        returnMatrix.append(list())
-        for j in range(len(mat[index])):
-            returnMatrix[index].append(0)
-    return returnMatrix
+def con_trans(m: list[list[complex]]) -> list[list[complex]]:
+    """ Calculates conjugate transpose of given matrix
 
-def copyMatrix(m:list[list])->list[list]:
-    '''
-    This function takes in a matrix m, and iterates entry
-    by entry, copying it without reference to a new matrix
-    which it then returns.
+    Takes the conjugate of each element in the matrix then 
+    transposes it.
+
     Args:
-        m: A matrix of vectors stored as list of lists
+        m: A matrix stored as a list of lists.
+
     Returns:
-        Returns a matrix with the same entries as m without
-        reference to them.
-    '''
-    temp = EmptyMat(m)
-    for i in range(len(m)):
-        for j in range(len(m[i])):
-            temp[i][j] = m[i][j]
-    return temp
-
-
-
-def makeColumn(vec:list,n:int)->list:
-    '''
-    Creates a column vector of size vec filled with 0's with n denoting
-    the location of a 1. Then returns this vector.
-    Args:
-        v: A vector v stored as list
-        n: An integer denoting where a 1 will be inserted into the new vector
+        The conjugate of each element in the given matrix
+        transposed.
     
-    Returns
-        Returns a vector composed of a 1 at position n and 0s everywhere else
-    '''
-    temp = []
-    for i in vec:
-        temp.append(0)
-    temp[n] = 1
-    return temp
+    """
+    a: complex = 0
+    result: list[list[complex]] = [([0] * (len(m))) for i in range(len(m[0]))]
+    for column in range(len(m)):
+        for row in range(len(m[0])):
+            a = m[column][row]
+            a = conjugate(a)
+            result[row][column] = a
+    return result
 
-def reconstructMatrix(matrixToReconstruct:list[list],BaseMatrix:list[list])->list[list]:
-    '''
-    Reconstructs matrixToReconstruct to the same size as BaseMatrix
-    with an "identity shell" as outlined below.
-    1 2     1 0 0    1 0 0 0
-    3 4 ->  0 1 2 -> 0 1 0 0
-            0 3 4    0 0 1 2
-                     0 0 3 4
+#matrix = [[2+3j, 1+1j, 2j], [3-1j, 4-2j, 1+3j],[5,8,2]]
+#print(con_trans(matrix))
+#gives [[(2-3j), (3+1j), (5+0j)], [(1-1j), (4+2j), (8+0j)], [-2j, (1-3j), (2+0j)]]
+
+def deep_copy(m: list[list]) -> list[list]:
+    """ Creates a deep copy of the given matrix
+
+    Creates a zero matrix with the same size as the given
+    matrix. Then replaces all the elements with the given matrix
+    and returns that matrix.
+
     Args:
-        matrixToReconstruct: A matrix stored as a list of lists
-        BaseMatrix: A matrix stored as a list of lists
+        m: a matrix stored as a list of lists
+
     Returns:
-        Returns a matrix with an inner part as matrixToReconstruct and 
-        the size BaseMatrix with an "identity shell" to make up the size
-        difference.
-    '''
-    copyMatrixToReconstruct = copyMatrix(matrixToReconstruct)
-    while len(BaseMatrix) > len(copyMatrixToReconstruct):
-        for i in copyMatrixToReconstruct:
-            i.insert(0,0)
-        tempCol = makeColumn(copyMatrixToReconstruct[0],0)
-        copyMatrixToReconstruct.insert(0,tempCol)
-    return copyMatrixToReconstruct
+        The deep copy of the given matrix
     
+    """
+    i = [[0 for element in range(len(m[0]))] for index in range(len(m))]
+    for index in range(len(m)):
+        for element in range(len(m[index])):
+            i[index][element] = m[index][element]
+    return i
 
-def makeIdentMatrix(m:list[list])-> list[list]:
-    '''
-    Creates an identity matrix the same size as m.
+def sign(x: float)-> float:
+    """Figures if the input float is pos or neg.
+    
+    if input is greater than or equal to 0 then it returns 1, 
+    else (input strictly is less than 0) returns -1.
+    
+    Args:
+        x: A number stored as a float
+        
+    Returns:
+        either 1 if x is pos or -1 if x is negative.
+    """
+    if x>=0:
+        return 1
+    else:
+        return -1
+
+def V_builder(vec: list) -> list:
+    """ Calculates the reflection vector of an input vector.
+    
+    The sign of vector times the pNorm of the vector times the vector 'a'
+    whos first element is 1, but the rest are 0 added with the input vector.
+
+    Args:
+        vec: A column vector
+
+    Returns:
+        The reflection of the input vector
+
+    """
+    a = [0 for element in range(len(vec))]
+    a[0] = 1
+    V = LA.add_vectors(vec, LA.scalar_vec_multi(a, sign(vec[0])*LA.p_norm(vec)))
+    return V
+
+def identity_matrix(x: int) -> list[list]:
+    """ Creates an identity matrix the size of the given int
+
+    creates a martix of zeros the size of input int then replaces the diagonal
+    elements with 1.
+
+    Args:
+        x: An integer that decides the size of the matrix
+
+    Returns:
+        The identity matrix
+    """
+    i: list = [[0 for element in range(x)] for index in range(x)]
+    for index in range(x):
+        i[index][index] = 1
+    return i
+# x = 5
+# print(identity_matrix(x))
+#gives [[1, 0, 0, 0, 0], [0, 1, 0, 0, 0], [0, 0, 1, 0, 0], [0, 0, 0, 1, 0], [0, 0, 0, 0, 1]]
+
+def vec_vec_multi(v_1: list, v_2: list) -> list:
+    """Multiplies two vectors together
+
+    Creates an empty list called result. Then for 
+    every element in the range of length of v_2 it 
+    appends the scalar_vec_multi of v_1 and v_2 to 
+    the result. Pretty much makes v_2 a row vector
+    so that we can multiply them together.
+
+    Args:
+        v_1: A vector stored as a list
+        v_2: A vector stored as a list the same size as v_1
+
+    Returns:
+        The product of v_1 and v_2
+
+    """
+    result: list = []
+    v_1 == v_2
+    for x in range(len(v_2)):
+        result.append(LA.scalar_vec_multi(v_1, v_2[x]))
+    return result
+
+# v_1 = [2,3,4]
+# v_2 = [7,8,9]
+# print(vec_vec_multi(v_1, v_2))
+# gives [[14, 21, 28], [16, 24, 32], [18, 27, 36]]
+
+def F_builder(vec: list) -> list[list]:
+    """Calculates the F_k value
+    
+    First we set 's' equal to -2 over the p_norm of vector_a squared. 
+    Then, we use the scalar_matrix_multi of the scalar, s, and vec_vec_multi
+    of 'vec' by itself and set it equal to x. We then use the add_matrix (from LA)
+    of the identity matrix with the length of 'vec, and add it to x and set that
+    equal to y and return y.
+
+    Args:
+        vec: A vector stored as a list
+
+    Returns:
+        The F_k matrix
+    """
+    s: float = -2/(LA.p_norm(vec))**2
+    x: list = LA.scalar_matrix_multi(vec_vec_multi(vec, vec), s)
+    y: list[list] = LA.matrix_add(identity_matrix(len(vec)), x)
+    
+    return y
+
+def Q_builder(m: list[list], x: int) -> list[list]:
+    """ Builds a iteration of the orthogonal matrix Q.
+
+    Set the elements of the input matrix to 0. Then for every 
+    index with the length of 'm', and for every element in 
+    the range with the length of the index of 'm', if the 
+    scalar plus the index or the scalar plus the element is less 
+    than the length of the index of 'm', then overwrite the 
+    index and element of 'A' is with the scalar plus index and the 
+    scalar plus element of 'm'. Then we make V be 'V_builder'
+    of the first element in 'A' and make F be 'F_builder' of
+    V. Then it has Q be the identity matrix with the length of the 
+    given matrix. For the index in the range of the 'x'
+    to the length of 'Q', overwrite the index and element of
+    'Q' with the element minus 'x' of F and the index minus 'x'.
+    Then it Returns 'Q'
+
     Args:
         m: A matrix stored as a list of lists
-    Returns:
-        Returns an identity matrix of the same size a m.
-    '''
-    tempMatrix = EmptyMat(m)
-    for i in range(len(m)):
-        for j in range(len(m[i])):
-            if (i==j):
-                tempMatrix[i][j] = 1
-            else:
-                tempMatrix[i][j] = 0
-    return tempMatrix
+        x: An iteration index stored as an int
 
-def makeSubMatrix(m:list[list])->list[list]:
-    '''
-    Creates a submatrix out of m that slices off the first row
-    and column of m. As outlined as below.
-    1 4 7    5 8
-    2 5 8 -> 6 9 -> 9
-    3 6 9
-    Args:
-        m: A matrix stored as a list of lists.
     Returns:
-        Returns the sliced matrix.
-    '''
-    temp = copyMatrix(m)
-    temp.pop(0)
-    for i in temp:
-        i.pop(0)
-    return temp
+        Q: A matrix stored as a list of lists
+    
+    """
+    A: list = [[0 for element in range(x, len(m[index]))] for index in range(x, len(m))]
+    for index in range(len(m)):
+        for element in range(len(m[index])):
+            if x + index < len(m[index]):
+                if x + element < len(m[index]):
+                    A[index][element] = m[x + index][x+element]
 
-def houseHolderCalc(m:list[list], n:int)->list[list]:
-    '''
-    Calculates the householder transformation matrix for m, Matrix.
-    Is created by the formula outlined in class.
+    V = V_builder(A[0])
+    F = F_builder(V)
+
+    Q = identity_matrix(len(m))
+    for index in range(x, len(Q)):
+        for element in range(x, len(Q)):
+            Q[index][element] = F[index - x][element - x]
+
+    return Q
+
+def Householder(m: list[list]) -> list[list]:
+    """ Does QR decomposition using Householder
+    
+    Creates a 'deep_copy' of the give matrix 'm' and
+    sets it to 'R'. Then makes an empty list 'Q_list'
+    Then starts a for loop where for every element
+    in range of the length of 'R', set 'Q_list' equal to the
+    'Q_builder' of 'R' and 'k', set 'R' equal to the 'mat_mat_multi'
+    of 'x' and 'R', and append 'x' to 'Q_list'. After that loop
+    it then sets 'Q' to be the 'con_trans' of the first element
+    in 'Q_list'. Then it goes into another for loop where from 1
+    to 'len(Q_list)' it takes each elements 'con_trans' in 'Q_list'
+    then performs 'mat_mat multi' to 'Q' and 'ct' and sets it equal 
+    to 'Q'. Then returns [Q, R]
+
     Args:
-        m: A matrix stored as a list of lists.
-        n: An integer n (Should be set to 0 always)
+        m: a matrix stored as a list of lists
+    
     Returns:
-        Returns the householder transformation matrix for m.
-    '''
-    x = m[n] # First column of m
-    normX = LA.p_norm(x)
-    inverseX = LA.scalar_vec_multi(x,-1)
-    e = makeColumn(x,n)
-    v = LA.add_vectors((LA.scalar_vec_multi(e,normX)),inverseX)
-    # Now we calculate F
-    numerator = []
-    for entry in v:
-        column = LA.scalar_vec_multi(v,entry)
-        numerator.append(column)
-    deno = 2/(LA.inner_product(v,v))
-    temp = LA.scalar_matrix_multi(numerator,deno)
-    ident = makeIdentMatrix(m)
-    temp = LA.scalar_matrix_multi(temp,-1)
-    F = LA.add_vectors(temp,ident)
-    return F
+        QR decomposition
+    """
+    R:list = deep_copy(m)
+    Q_list: list = []
+    for k in range(len(R)):
+        x: list = Q_builder(R, k)
+        R = LA.mat_mat_multi(x, R)
+        Q_list.append(x)
+        
+    Q: list = con_trans(Q_list[0])
+    
+    for index in range (1, len(Q_list)):
+        ct = con_trans(Q_list[index])
+        Q = LA.mat_mat_multi(Q, ct)
+    
+    return[Q, R]
+
+matrix_01 = [[1,2,3],[4,5,6],[7,8,9]]
+print(Householder(matrix_01))
+# gives [[[(-0.2672612419124245+0j), (-0.5345224838248489+0j), (-0.8017837257372733+0j)], [(0.8728715609439699+0j), (0.21821789023599203+0j), (-0.43643578047198434+0j)], [(-0.4082482904638626+0j), (0.816496580927726+0j), (-0.40824829046386335+0j)]], [[-3.741657386773942, 7.251946429389432e-16, -3.3917873657517295e-16], [-8.552359741197582, 1.9639610121239335, 5.551115123125783e-17], [-13.363062095621222, 3.927922024247865, 5.551115123125783e-16]]]
