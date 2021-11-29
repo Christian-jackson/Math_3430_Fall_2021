@@ -35,7 +35,7 @@ def scalar_vec_multi(vector: list[float], scalar: float) -> list[float]:
   Returns:
     The vector scaled by Scalar stored as a list.
   """
-  result: list[float] = []
+  result: list = []
   for index in range(len(vector)):
     result.append(vector[index] * scalar)
   return (result)

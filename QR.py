@@ -24,16 +24,18 @@ def SGS(matrix: list[list]) -> list[list]:
         A list producing the matrices Q and R.
     """
     Q: list = []
-    V: list = [element for element in matrix]
-    R: list = [([0] * (len(matrix[0]))) for i in range(len(matrix))]
+    V: list = []
+    R: list = [[0, 0], [0, 0]]
     
-    for outer in range(len(matrix)):
-        R[outer][outer] = LA.p_norm((V[outer]))
-        Q.append(LA.scalar_vec_multi((V[outer]), (1 / R[outer][outer])))
-        for inner in range(outer, len(matrix)):
-            R[inner][outer] = LA.inner_product(Q[outer], V[inner])
-            A = LA.scalar_vec_multi(Q[outer], -R[inner][outer])
-            V[inner] = LA.add_vectors(V[inner], A)
+    for element in matrix:
+        V.append(element)
+    for outer_index in range(len(matrix)):
+        R[outer_index][outer_index] = LA.p_norm((V[outer_index]))
+        Q.append(LA.scalar_vec_multi((1 / R[outer_index][outer_index]), (V[outer_index])))
+        for inner_index in range(outer_index, len(matrix)):
+            R[inner_index][outer_index] = LA.inner_product(Q[outer_index], V[inner_index])
+            s = LA.scalar_vec_multi(Q[outer_index], -R[inner_index][outer_index])
+            V[inner_index] = LA.add_vectors(V[inner_index], s)
     return [Q, R]
 
 def orthonorm(Matrix: list[list]) -> list[list]:
