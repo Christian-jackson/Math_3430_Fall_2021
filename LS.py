@@ -29,5 +29,3 @@ test_matrix_03 = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
 v_1 = [2, 3]
 v_2 = [7, 8, 9] 
 v_3 = [5, 3, 10]
-
-print(least_squares(test_matrix_03, v_3))

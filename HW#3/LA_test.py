@@ -13,7 +13,21 @@ test_matrix_01 = [[1, 2, 3],[4, 5, 6],[7, 8, 9]]
 test_matrix_02 = [[2, 4, 6],[8, 10, 12],[14, 16, 18]]
 test_matrix_03 = [[1, 3, 5],[7, 9, 11],[13, 15, 17]]
 
+p: int = 2
+vector_A = [1, 2, 3]
+vector_B = [2, 4, 6]
 
+vector_1 = [4, 7, -9, 1]
+vector_2 = [3, -5, 7, 2]
+
+vector_B = [2, 4, 6]
+p: int = 2
+boolean = False
+boolean2 = True
+
+vector1 = [3,4,5]
+vector2 = [2,1,4]
+vector3 = [7,8,9]
 
 def test_add_vecs():
     #[1+3, 2+1, 4+2] = [4, 3, 6]
@@ -50,3 +64,26 @@ def test_mat_mat_multi():
     assert LA.mat_mat_multi(test_matrix_01, test_matrix_02) == [[60, 72, 84], [132, 162, 192], [204, 252, 300]]
     #
     assert LA.mat_mat_multi(test_matrix_01, test_matrix_03) == [[48, 57, 66], [120, 147, 174], [192, 237, 282]]
+
+def test_p_norm():
+    
+    assert LA.p_norm(vector_A, p) == 3.7416573867739413
+    assert LA.p_norm(vector_B, p) == 7.483314773547883
+
+
+def test_inf_norm():
+    
+    assert LA.inf_norm(vector_1) == 9
+    assert LA.inf_norm(vector_2) == 7
+
+
+def test_p_inf_norm_result():
+    
+    assert LA.inf_or_p_norm(vector_B, p, boolean) == 7.483314773547883
+    assert LA.inf_or_p_norm(vector_B, p, boolean2) == 6
+
+
+def test_inner_product():
+    
+    assert LA.inner_product(vector1,vector2) == 30
+    assert LA.inner_product(vector2,vector3) == 58
