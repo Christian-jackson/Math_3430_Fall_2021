@@ -1,1 +1,11 @@
 HW#9
+
+Floating point numbers have a few key advantages over fixed point numbers. Floating
+point numbers can represent a wider range of values compared to fixed point becuase
+it doesn't have a fixed amount of numbers after the decimal like fixed point numbers.
+The amount of decimal places changes with the magnitude of the number. Which allows
+floating point numbers to represent very large/small numbers better than fixed point.
+The disadvantage to using floating point number though is that because of its many 
+values it can cause an accurate answer, but it wount be an exact due to it haveing
+mulitple values and can end up being less percise at times. So it sacrifieces percision
+for range.
